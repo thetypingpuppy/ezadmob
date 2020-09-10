@@ -33,7 +33,9 @@ function onDeviceReady() {
 
 function bannerShow(){
     //console.log("hello");
-    cordova.exec(function(result) { console.log("Result:" + result); }, function(err) { console.log(err); }, "Banner", "sum", [5, 2]);
+    //cordova.exec(function(result) { console.log("Result:" + result); }, function(err) { console.log(err); }, "Banner", "sum", [5, 2]);
+
+    cordova.exec(function() { console.log("No Errors"); }, function(err) { console.log(err); }, "Banner", "show", []);
 } 
 
 function bannerHide(){
