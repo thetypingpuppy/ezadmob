@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    id="com.orbost.ezadmob"
+    version="1.0.0">
+
+  <name>ezadmob</name>
+
+  <description>
+    Cordova plugin for admob implementation.
+  </description>
+
+  <!-- <asset src="www/ezadmob.js" target="plugins/ezadmob.js" /> -->
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0" />
+  </engines>
+
+  <!-- android -->
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+	    <feature name="Banner">
+	        <param name="android-package" value="com.orbost.ezadmob.Banner"/>
+	    </feature>
+    </config-file>
+
+    <source-file src="src/android/com/orbost/ezadmob/Banner.java" target-dir="src/com/orbost/ezadmob" />
+  </platform>
+
+  <!-- more platforms here -->
+
+</plugin>

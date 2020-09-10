@@ -1,0 +1,23 @@
+{
+  "name": "com.orbost.ezadmob",
+  "version": "1.0.0",
+  "description": "\n    Cordova plugin for admob implementation.\n  ",
+  "cordova": {
+    "id": "com.orbost.ezadmob",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Orbost",
+  "license": "ISC"
+}
