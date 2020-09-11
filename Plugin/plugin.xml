@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-    id="com.orbost.ezadmob"
+    id="ezadmob"
     version="1.0.0">
 
   <name>ezadmob</name>
@@ -15,13 +15,25 @@
       <engine name="cordova" version=">=3.0.0" />
   </engines>
 
+    <!-- <js-module name="AdMob" src="www/AdMob.js">
+        <clobbers target="AdMob" />
+    </js-module> -->
+   <asset src="www/ezadmob.js" target="plugins/ezadmob.js" />
+
   
   <!-- android -->
   <platform name="android">
 
+    <!-- <asset src="www/ezadmob.js" target="www/js/ezadmob.js" /> -->
+
     <dependency id="cordova-plugin-androidx" version="2.0.0"/>
     
     <framework src="com.google.android.gms:play-services-ads:19.3.0"/>
+
+    <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    </config-file>
 
     <config-file parent="/manifest/application" target="AndroidManifest.xml">
         <activity android:name="com.google.android.gms.ads.AdActivity"
@@ -30,15 +42,23 @@
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7578900025157829~6118086218"/>
     </config-file>
 
-    <config-file target="res/xml/config.xml" parent="/*">
+    <!-- <config-file target="res/xml/config.xml" parent="/*">
         <feature name="Banner">
             <param name="android-package" value="com.orbost.ezadmob.Banner"/>
         </feature>
+    </config-file> -->
+
+    <config-file target="res/xml/config.xml" parent="/*">
+        <feature name="ezadmob">
+            <param name="android-package" value="com.orbost.plugins.ezadmob"/>
+        </feature>
     </config-file>
 
-    <source-file src="src/android/com/orbost/ezadmob/Banner.java" target-dir="src/com/orbost/ezadmob" />
-    <source-file src="src/android/com/orbost/ezadmob/BannerListener.java" target-dir="src/com/orbost/ezadmob" />
-    
+    <source-file src="src/android/Banner.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/BannerListener.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/Interstitial.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/InterstitialListener.java" target-dir="src/com/orbost/plugins" /> 
+    <source-file src="src/android/ezadmob.java" target-dir="src/com/orbost/plugins" />
   </platform>
 
   <!-- more platforms here -->

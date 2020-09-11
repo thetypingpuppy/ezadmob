@@ -1,5 +1,5 @@
 
-package com.orbost.ezadmob;
+package com.orbost.plugins;
 
 import android.util.Log;
 
@@ -9,7 +9,6 @@ class BannerListener extends AdListener {
 
     private final Banner executor;
     BannerListener(Banner executor) {
-        super();
         this.executor = executor;
     }
 

@@ -17,16 +17,17 @@
     "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
     "cordova-plugin-androidx": "^2.0.0",
-    "cordova-plugin-whitelist": "^1.3.4"
+    "cordova-plugin-whitelist": "^1.3.4",
+    "ezadmob": "file:../Plugin"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "com.orbost.ezadmob": {}
+      "ezadmob": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

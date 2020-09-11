@@ -1,5 +1,5 @@
 {
-  "name": "com.orbost.ezadmob",
+  "name": "ezadmob",
   "version": "1.0.0",
   "description": "\n    Cordova plugin for admob implementation.\n  ",
   "cordova": {
