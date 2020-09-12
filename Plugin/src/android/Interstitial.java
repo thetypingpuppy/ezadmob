@@ -28,28 +28,10 @@ public class Interstitial {
                 destroy();
                 interstitialAd = new InterstitialAd(cordova.getActivity());
                 interstitialAd.setAdUnitId(plugin.INTERSTITIAL_ID);
-//                interstitialAd.setAdListener(new InterstitialListener(Interstitial.this));
+                interstitialAd.setAdListener(new InterstitialListener(Interstitial.this, callbackContext));
 
                 AdRequest adRequest = new AdRequest.Builder().build();
                 interstitialAd.loadAd(adRequest);
-
-                interstitialAd.setAdListener(new AdListener(){
-                    @Override
-                    public void onAdLoaded() {
-                        super.onAdLoaded();
-                        displayAd(callbackContext);
-                    }
-                });
-
-
-
-                // delayCallback.success();
-//                if (interstitialAd == null) {
-//                    return;
-//                }
-                // AdMobConfig config = plugin.config;
-
-
             }
         });
     }
@@ -63,7 +45,7 @@ public class Interstitial {
             }
         } else {
             if (callbackContext != null) {
-                callbackContext.error("Interstital not ready yet");
+                callbackContext.error("Interstitial not ready yet");
             }
         }
     }
@@ -74,7 +56,4 @@ public class Interstitial {
             interstitialAd = null;
         }
     }
-
-
-
 }

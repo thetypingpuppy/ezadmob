@@ -23,22 +23,19 @@ document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
-    // console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    // document.getElementById('deviceready').classList.add('ready');
-    document.getElementById("bannerShowOverlayButton").addEventListener("click", bannerShowOverlayButton);
-    document.getElementById("bannerShowClippedButton").addEventListener("click", bannerShowClippedButton);
+
+    ezadmob.init({
+        BANNER_ID : "ca-app-pub-3940256099942544/6300978111",
+        INTERSTITIAL_ID : "ca-app-pub-3940256099942544/1033173712",
+        BANNER_OVERLAP: true});
+
+    document.getElementById("bannerShowButton").addEventListener("click", bannerShow);
     document.getElementById("bannerHideButton").addEventListener("click", bannerHide);
     document.getElementById("interstitialShowButton").addEventListener("click", interstitialShow);
 }
 
-function bannerShowOverlayButton(){
-    // cordova.exec(function() { console.log("No Errors"); }, function(err) { console.log(err); }, "Banner", "showOverlay", []);
-    ezadmob.showBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); },'Overlay');
-}
-
-function bannerShowClippedButton(){
-    // cordova.exec(function() { console.log("No Errors"); }, function(err) { console.log(err); }, "Banner", "showClipped", []);
-    ezadmob.showBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); },'Bottom');
+function bannerShow(){
+    ezadmob.loadBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
 }
 
 function bannerHide(){
@@ -46,5 +43,5 @@ function bannerHide(){
 } 
 
 function interstitialShow(){
-    ezadmob.showInterstitial(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+    ezadmob.loadInterstitial(function() { console.log("No Errors"); }, function(err) { console.log(err); });
 } 

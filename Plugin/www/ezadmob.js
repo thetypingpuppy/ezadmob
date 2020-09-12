@@ -1,26 +1,18 @@
 class ezadmob{
-	//    static prepare(successCallback, errorCallback) {
-	//            cordova.exec(successCallback, errorCallback, "ezadmob", "PREPARE_BANNER", []);
-	//    };
-	
-		static init(successCallback, errorCallback, args) {
-			cordova.exec(successCallback, errorCallback, "ezadmob", "INIT", args);
-		};
+	static init(args) {
+		cordova.exec(null, null, "ezadmob", "INIT", [args]);
+	};
 
-		static showBanner(successCallback, errorCallback, pos) {
-			if (pos === 'Overlay'){ 
-				cordova.exec(successCallback, errorCallback, "ezadmob", "SHOW_OVERLAY_BANNER", []);
-			} else {
-				cordova.exec(successCallback, errorCallback, "ezadmob", "SHOW_CLIPPED_BANNER", []);
-			}
-		};
-	
-		static removeBanner(successCallback, errorCallback) {
-			cordova.exec(successCallback, errorCallback, "ezadmob", "REMOVE_BANNER", []);
-		};
+	static loadBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_BANNER");
+	};
 
-		static showInterstitial(successCallback, errorCallback) {
-			cordova.exec(successCallback, errorCallback, "ezadmob", "SHOW_INTERSTITIAL", []);
-		};
-	}
+	static removeBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "REMOVE_BANNER", []);
+	};
+
+	static loadInterstitial(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_INTERSTITIAL", []);
+	};
+}
 	

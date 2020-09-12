@@ -23,7 +23,9 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "ezadmob": {}
+      "ezadmob": {
+        "ADMOB_APP_ID": "ca-app-pub-7578900025157829~6118086218"
+      }
     },
     "platforms": [
       "browser",
