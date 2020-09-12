@@ -34,6 +34,7 @@ class BannerListener extends AdListener {
     @Override
     public void onAdFailedToLoad(LoadAdError adError) {
         // Code to be executed when an ad request fails.
+        callbackContext.error("Banner not ready yet");
     }
 
     @Override
