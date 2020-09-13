@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    id="ezadmob"
+    version="1.0.0">
+
+  <name>ezadmob</name>
+
+  <description>
+    Cordova plugin for admob implementation.
+  </description>
+
+  <!-- <asset src="www/ezadmob.js" target="plugins/ezadmob.js" /> -->
+
+  <engines>
+      <engine name="cordova" version=">=3.0.0" />
+  </engines>
+
+    <!-- <js-module name="AdMob" src="www/AdMob.js">
+        <clobbers target="AdMob" />
+    </js-module> -->
+   <asset src="www/ezadmob.js" target="plugins/ezadmob.js" />
+
+  
+  <!-- android -->
+  <platform name="android">
+
+    <preference name="ADMOB_APP_ID" default=""/>
+
+    <dependency id="cordova-plugin-androidx" version="2.0.0"/>
+    
+    <framework src="com.google.android.gms:play-services-ads:19.3.0"/>
+
+    <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    </config-file>
+
+    <config-file parent="/manifest/application" target="AndroidManifest.xml">
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="$ADMOB_APP_ID"/>
+    </config-file>
+
+    <config-file target="res/xml/config.xml" parent="/*">
+        <feature name="ezadmob">
+            <param name="android-package" value="com.orbost.plugins.ezadmob"/>
+        </feature>
+    </config-file>
+
+    <source-file src="src/android/Banner.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/BannerListener.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/Interstitial.java" target-dir="src/com/orbost/plugins" />
+    <source-file src="src/android/InterstitialListener.java" target-dir="src/com/orbost/plugins" /> 
+    <source-file src="src/android/ezadmob.java" target-dir="src/com/orbost/plugins" />
+  </platform>
+
+  <!-- more platforms here -->
+
+</plugin>
