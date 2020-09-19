@@ -19,28 +19,36 @@ class InterstitialListener extends AdListener {
     @Override
     public void onAdLoaded() {
         executor.displayAd(callbackContext);
+
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLoaded").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdFailedToLoad(LoadAdError adError) {
         // Code to be executed when an ad request fails.
         callbackContext.error("Interstitial not ready yet");
+
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdFailedToLoad").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdLeftApplication() {
-        
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLeftApplication").build();
+        executor.loadJS(js);
     }
 
 
     @Override
     public void onAdOpened() {
-        
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdOpened").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdClosed() {
-        String js = new CordovaEventBuilder("ezadmob.interstitial.closed").build();
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdClosed").build();
         executor.loadJS(js);
     }
 }
