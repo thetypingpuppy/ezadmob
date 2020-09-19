@@ -29,29 +29,41 @@ class BannerListener extends AdListener {
         } else {
             executor.displayClippedAd(callbackContext);
         }
+
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLoaded").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdFailedToLoad(LoadAdError adError) {
         // Code to be executed when an ad request fails.
         callbackContext.error("Banner not ready yet");
+
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdFailedToLoad").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdOpened() {
         // Code to be executed when an ad opens an overlay that
         // covers the screen.
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdOpened").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdLeftApplication() {
         // Code to be executed when the user has left the app.
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLeftApplication").build();
+        executor.loadJS(js);
     }
 
     @Override
     public void onAdClosed() {
         // Code to be executed when when the user is about to return
         // to the app after tapping on an ad.
+        String js = new CordovaEventBuilder("ezadmob.interstitial.onAdClosed").build();
+        executor.loadJS(js);
     }
 
 

@@ -29,6 +29,10 @@ public class Banner {
         this.plugin = plugin;
     }
 
+    public void loadJS(String js) {
+        plugin.webView.loadUrl(js);
+    }
+
     public void loadBanner(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
         cordova.getActivity().runOnUiThread(new Runnable() {
