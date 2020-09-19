@@ -58,6 +58,9 @@ public class Banner {
         CordovaInterface cordova = plugin.cordova;
         CordovaWebView webView = plugin.webView;
 
+        adView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        adView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
         RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -81,6 +84,9 @@ public class Banner {
 
     public void displayClippedAd(CallbackContext callbackContext){
         CordovaWebView webView = plugin.webView;
+
+        adView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        adView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         ViewGroup wvParentView = (ViewGroup) getWebView().getParent();
         if (parentView == null) {
