@@ -1,4 +1,4 @@
-package name.ratson.cordova.admob;
+package com.orbost.plugins;
 
 import org.json.JSONObject;
 
