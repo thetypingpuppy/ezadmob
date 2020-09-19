@@ -41,6 +41,6 @@ class InterstitialListener extends AdListener {
     @Override
     public void onAdClosed() {
         String js = new CordovaEventBuilder("ezadmob.interstitial.closed").build();
-        loadJS(js);
+        executor.loadJS(js);
     }
 }

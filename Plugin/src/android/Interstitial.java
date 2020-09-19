@@ -15,6 +15,9 @@ public class Interstitial {
         this.plugin = plugin;
     } 
 
+    public void loadJS(String js) {
+        plugin.webView.loadUrl(js);
+    }
 
     public void show(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
