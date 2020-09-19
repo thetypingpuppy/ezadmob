@@ -52,6 +52,7 @@
     <source-file src="src/android/BannerListener.java" target-dir="src/com/orbost/plugins" />
     <source-file src="src/android/Interstitial.java" target-dir="src/com/orbost/plugins" />
     <source-file src="src/android/InterstitialListener.java" target-dir="src/com/orbost/plugins" /> 
+     <source-file src="src/android/CordovaEventBuilder.java" target-dir="src/com/orbost/plugins" />
     <source-file src="src/android/ezadmob.java" target-dir="src/com/orbost/plugins" />
   </platform>
 
