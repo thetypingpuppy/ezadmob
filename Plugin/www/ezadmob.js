@@ -14,5 +14,9 @@ class ezadmob{
 	static loadInterstitial(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_INTERSTITIAL", []);
 	};
+
+	static displayInterstitial(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "DISPLAY_INTERSTITIAL", []);
+	};
 }
 	

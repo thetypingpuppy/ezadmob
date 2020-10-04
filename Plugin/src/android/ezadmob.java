@@ -58,7 +58,11 @@ public class ezadmob extends CordovaPlugin {
         }
 
         if (action.equals("LOAD_INTERSTITIAL")) {
-            interstitial.show(callbackContext);
+            interstitial.load(callbackContext);
+        }
+
+        if (action.equals("DISPLAY_INTERSTITIAL")) {
+            interstitial.displayAd(callbackContext);
         }
 
         return true;

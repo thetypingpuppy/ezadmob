@@ -19,7 +19,7 @@ public class Interstitial {
         plugin.webView.loadUrl(js);
     }
 
-    public void show(CallbackContext callbackContext){
+    public void load(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
 
         cordova.getActivity().runOnUiThread(new Runnable() {
