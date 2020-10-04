@@ -20,6 +20,7 @@ class InterstitialListener extends AdListener {
     public void onAdLoaded() {
         
         //executor.displayAd(callbackContext);
+        callbackContext.success();
 
         String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLoaded").build();
         executor.loadJS(js);
