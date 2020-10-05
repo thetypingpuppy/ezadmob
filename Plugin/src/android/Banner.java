@@ -42,9 +42,7 @@ public class Banner {
                     adView = new AdView(cordova.getActivity());
                     adView.setAdUnitId(plugin.BANNER_ID);
                     adView.setAdSize(AdSize.SMART_BANNER);
-
-                    BannerListener bl = new BannerListenerAutoshow(Banner.this, callbackContext);
-                    adView.setAdListener(bl);
+                    adView.setAdListener(new BannerListenerAutoshow(Banner.this, callbackContext));
 
                 }
                 if (adView.getParent() != null) {
@@ -130,9 +128,7 @@ public class Banner {
                     adView = new AdView(cordova.getActivity());
                     adView.setAdUnitId(plugin.BANNER_ID);
                     adView.setAdSize(AdSize.SMART_BANNER);
-
-                    BannerListener bl = new BannerListener(Banner.this, callbackContext);
-                    adView.setAdListener(bl);
+                    adView.setAdListener(new BannerListener(Banner.this, callbackContext));
 
                 }
                 if (adView.getParent() != null) {
