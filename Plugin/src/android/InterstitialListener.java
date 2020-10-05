@@ -20,7 +20,7 @@ class InterstitialListener extends AdListener {
     @Override
     public void onAdLoaded() {
         if (this.executor.plugin.autoshowInterstitial){
-            executor.displayAd(callbackContext);
+            executor.displayAdAuto(callbackContext);
         } else {
             callbackContext.success();
         }

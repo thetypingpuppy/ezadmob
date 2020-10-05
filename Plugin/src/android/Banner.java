@@ -57,7 +57,9 @@ public class Banner {
         });
     }
 
-    public void displayOverlapAd(CallbackContext callbackContext){
+    // Display auto functions do not need another instance of runOnUiThread() 
+    // as they are being triggered on the UI thread.
+    public void displayOverlapAdAuto(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
         CordovaWebView webView = plugin.webView;
 
@@ -85,7 +87,7 @@ public class Banner {
         callbackContext.success();
     }
 
-    public void displayClippedAd(CallbackContext callbackContext){
+    public void displayClippedAdAuto(CallbackContext callbackContext){
         CordovaWebView webView = plugin.webView;
 
         adView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -111,6 +113,74 @@ public class Banner {
         parentView.requestFocus();
 
         callbackContext.success();
+    }
+
+    // As these display advert functions are triggered externally to the 
+    // loadAd() they need a new instance of runOnUiThread();
+    public void displayOverlapAd(CallbackContext callbackContext){
+        CordovaInterface cordova = plugin.cordova;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override public void run() {
+                CordovaInterface cordova = plugin.cordova;
+                CordovaWebView webView = plugin.webView;
+
+                adView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                adView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+                RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                //        params2.addRule(plugin.config.bannerAtTop ? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                if (adViewLayout == null) {
+                    adViewLayout = new RelativeLayout(cordova.getActivity());
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                    try {
+                        ((ViewGroup) (((View) webView.getClass().getMethod("getView").invoke(webView)).getParent())).addView(adViewLayout, params);
+                    } catch (Exception e) {
+                        ((ViewGroup) webView).addView(adViewLayout, params);
+                    }
+                }
+
+                adViewLayout.addView(adView, params2);
+                adViewLayout.bringToFront();
+
+                callbackContext.success();
+            }
+        });
+    }
+
+    public void displayClippedAd(CallbackContext callbackContext){
+        CordovaInterface cordova = plugin.cordova;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override public void run() {
+                CordovaWebView webView = plugin.webView;
+
+                adView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                adView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+                ViewGroup wvParentView = (ViewGroup) getWebView().getParent();
+                if (parentView == null) {
+                    parentView = new LinearLayout(webView.getContext());
+                }
+                if (wvParentView != null && wvParentView != parentView) {
+                    ViewGroup rootView = (ViewGroup) (getWebView().getParent());
+                    wvParentView.removeView(getWebView());
+                    ((LinearLayout) parentView).setOrientation(LinearLayout.VERTICAL);
+                    parentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
+                    getWebView().setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1.0F));
+                    parentView.addView(getWebView());
+                    rootView.addView(parentView);
+                }
+
+                parentView.addView(adView);
+                parentView.bringToFront();
+                parentView.requestLayout();
+                parentView.requestFocus();
+
+                callbackContext.success();
+            }
+        });
     }
 
 

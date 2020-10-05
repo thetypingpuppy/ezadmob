@@ -25,13 +25,6 @@ public class ezadmob extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (banner == null){
-            banner = new Banner(this);
-        }
-        if (interstitial == null){
-            interstitial = new Interstitial(this);
-        }
-
         if (action.equals("INIT")) {
             JSONObject jsonObj = args.getJSONObject(0);
             JSONArray keys = jsonObj.names ();
@@ -54,7 +47,13 @@ public class ezadmob extends CordovaPlugin {
                     autoshowInterstitial = jsonObj.getBoolean(key);
                 }
             }
+        }
 
+        if (banner == null){
+            banner = new Banner(this);
+        }
+        if (interstitial == null){
+            interstitial = new Interstitial(this);
         }
 
         if (action.equals("LOAD_BANNER")) {

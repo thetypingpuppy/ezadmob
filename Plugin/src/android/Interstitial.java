@@ -40,6 +40,20 @@ public class Interstitial {
     }
 
     // Function to display advert, called when advert is loaded and available to show.
+    public void displayAdAuto(CallbackContext callbackContext){
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+            if (callbackContext != null) {
+                callbackContext.success();
+            }
+        } else {
+            if (callbackContext != null) {
+                callbackContext.error("Interstitial not ready yet");
+            }
+        }
+    }
+
+    // Function to display advert, called when advert is loaded and available to show.
     public void displayAd(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
         cordova.getActivity().runOnUiThread(new Runnable() {

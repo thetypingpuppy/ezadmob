@@ -27,9 +27,9 @@ class BannerListener extends AdListener {
         // Code to be executed when an ad finishes loading.
         if (this.executor.plugin.autoshowBanner){
             if (this.executor.plugin.bannerOverlap) {
-                executor.displayOverlapAd(callbackContext);
+                executor.displayOverlapAdAuto(callbackContext);
             } else {
-                executor.displayClippedAd(callbackContext);
+                executor.displayClippedAdAuto(callbackContext);
             }
         } else {
             callbackContext.success();
