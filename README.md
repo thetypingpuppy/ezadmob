@@ -14,7 +14,7 @@ config = {
     INTERSTITIAL_ID : 'ca-app-pub-3940256099942544/1033173712,
     BANNER_OVERLAP: false};
 
- ezadmob.init(config);
+ezadmob.init(config);
 ```
 
 ## Banner Usage
