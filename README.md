@@ -65,14 +65,14 @@ Simply add listeners to your `index.js` or within `onDeviceReady()`.
 #### onAdLoaded
 ```
 document.addEventListener('ezadmob.banner.onAdLoaded', function(event) {
-    bannerLoaded = true;
+    bannerAdLoaded = true;
 });
 ```
 
 #### onAdFailedToLoad
 ```
 document.onAdFailedToLoad('ezadmob.banner.onAdFailedToLoad', function(event) {
-    bannerFailedToLoad = true;
+    bannerAdLoaded = false;
 });
 ```
 
@@ -103,13 +103,13 @@ document.addEventListener('ezadmob.banner.onAdClosed', function(event) {
 #### onAdLoaded
 ```
 document.addEventListener('ezadmob.interstitial.onAdLoaded', function(event) {
-    interstitialLoaded = true;
+    interstitialAdLoaded = true;
 });
 ```
 #### onAdFailedToLoad
 ```
 document.onAdFailedToLoad('ezadmob.interstitial.onAdFailedToLoad', function(event) {
-    interstitialFailedToLoad = true;
+    interstitialAdLoaded = false;
 });
 ```
 #### onAdOpened
