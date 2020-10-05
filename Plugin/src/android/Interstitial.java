@@ -19,7 +19,7 @@ public class Interstitial {
         plugin.webView.loadUrl(js);
     }
 
-    public void loadAd(CallbackContext callbackContext){
+    public void loadAndShowAd(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
 
         cordova.getActivity().runOnUiThread(new Runnable() {
@@ -31,7 +31,7 @@ public class Interstitial {
                 destroy();
                 interstitialAd = new InterstitialAd(cordova.getActivity());
                 interstitialAd.setAdUnitId(plugin.INTERSTITIAL_ID);
-                interstitialAd.setAdListener(new InterstitialListener(Interstitial.this, callbackContext));
+                interstitialAd.setAdListener(new InterstitialListenerAutoshow(Interstitial.this, callbackContext));
 
                 AdRequest adRequest = new AdRequest.Builder().build();
                 interstitialAd.loadAd(adRequest);
@@ -51,6 +51,27 @@ public class Interstitial {
                 callbackContext.error("Interstitial not ready yet");
             }
         }
+    }
+
+
+    public void loadAd(CallbackContext callbackContext){
+        CordovaInterface cordova = plugin.cordova;
+
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // AdMobConfig config = plugin.config;
+                CordovaInterface cordova = plugin.cordova;
+
+                destroy();
+                interstitialAd = new InterstitialAd(cordova.getActivity());
+                interstitialAd.setAdUnitId(plugin.INTERSTITIAL_ID);
+                interstitialAd.setAdListener(new InterstitialListener(Interstitial.this, callbackContext));
+
+                AdRequest adRequest = new AdRequest.Builder().build();
+                interstitialAd.loadAd(adRequest);
+            }
+        });
     }
 
     // Function to display advert, called when advert is loaded and available to show.

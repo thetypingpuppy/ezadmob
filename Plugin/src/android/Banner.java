@@ -32,7 +32,7 @@ public class Banner {
         plugin.webView.loadUrl(js);
     }
 
-    public void loadAd(CallbackContext callbackContext){
+    public void loadAndShowAd(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override public void run() {
@@ -43,7 +43,7 @@ public class Banner {
                     adView.setAdUnitId(plugin.BANNER_ID);
                     adView.setAdSize(AdSize.SMART_BANNER);
 
-                    BannerListener bl = new BannerListener(Banner.this, callbackContext);
+                    BannerListener bl = new BannerListenerAutoshow(Banner.this, callbackContext);
                     adView.setAdListener(bl);
 
                 }
@@ -114,6 +114,37 @@ public class Banner {
 
         callbackContext.success();
     }
+
+
+
+
+
+
+    public void loadAd(CallbackContext callbackContext){
+        CordovaInterface cordova = plugin.cordova;
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override public void run() {
+                CordovaInterface cordova = plugin.cordova;
+
+                if (adView == null) {
+                    adView = new AdView(cordova.getActivity());
+                    adView.setAdUnitId(plugin.BANNER_ID);
+                    adView.setAdSize(AdSize.SMART_BANNER);
+
+                    BannerListener bl = new BannerListener(Banner.this, callbackContext);
+                    adView.setAdListener(bl);
+
+                }
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+            }
+        });
+    }
+
 
     // As these display advert functions are triggered externally to the 
     // loadAd() they need a new instance of runOnUiThread();

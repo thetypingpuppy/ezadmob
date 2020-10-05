@@ -4,6 +4,10 @@ class ezadmob{
 	};
 
 	static loadBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_AND_SHOW_BANNER");
+	};
+
+	static loadBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_BANNER");
 	};
 
@@ -13,6 +17,10 @@ class ezadmob{
 
 	static removeBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "REMOVE_BANNER", []);
+	};
+
+	static loadInterstitial(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_AND_SHOW_INTERSTITIAL", []);
 	};
 
 	static loadInterstitial(successCallback, errorCallback) {

@@ -8,17 +8,18 @@ import com.google.android.gms.ads.LoadAdError;
 
 import org.apache.cordova.CallbackContext;
 
-class InterstitialListener extends AdListener {
+class InterstitialListenerAutoshow extends AdListener {
     private final Interstitial executor;
     CallbackContext callbackContext;
 
-    InterstitialListener(Interstitial executor, CallbackContext callbackContext) {
+    InterstitialListenerAutoshow(Interstitial executor, CallbackContext callbackContext) {
         this.executor = executor;
         this.callbackContext = callbackContext;
     }
 
     @Override
     public void onAdLoaded() {
+        executor.displayAdAuto(callbackContext);
         callbackContext.success();
 
         String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLoaded").build();
