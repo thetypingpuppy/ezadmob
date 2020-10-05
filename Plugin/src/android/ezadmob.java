@@ -20,6 +20,8 @@ public class ezadmob extends CordovaPlugin {
     String BANNER_ID = "ca-app-pub-3940256099942544/6300978111";
     String INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712";
     boolean bannerOverlap = false;
+    boolean autoshowBanner = false;
+    boolean autoshowInterstitial = false;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -45,20 +47,35 @@ public class ezadmob extends CordovaPlugin {
                 if (key.equals("BANNER_OVERLAP")){
                     bannerOverlap = jsonObj.getBoolean(key);
                 }
+                if (key.equals("AUTOSHOW_BANNER")){
+                    autoshowBanner = jsonObj.getBoolean(key);
+                }
+                if (key.equals("AUTOSHOW_INTERSTITIAL")){
+                    autoshowInterstitial = jsonObj.getBoolean(key);
+                }
             }
 
         }
 
         if (action.equals("LOAD_BANNER")) {
-            banner.loadBanner(callbackContext);
+            banner.loadAd(callbackContext);
+        }
+
+        if (action.equals("DISPLAY_BANNER")) {
+            if (bannerOverlap) {
+                banner.displayOverlapAd(callbackContext);
+            } else {
+                banner.displayClippedAd(callbackContext);
+            }
         }
 
         if (action.equals("REMOVE_BANNER")) {
             banner.removeAd(callbackContext);
         }
 
+
         if (action.equals("LOAD_INTERSTITIAL")) {
-            interstitial.load(callbackContext);
+            interstitial.loadAd(callbackContext);
         }
 
         if (action.equals("DISPLAY_INTERSTITIAL")) {

@@ -16,6 +16,7 @@ class BannerListener extends AdListener {
 
     private final Banner executor;
     CallbackContext callbackContext;
+    
     BannerListener(Banner executor, CallbackContext callbackContext) {
         this.executor = executor;
         this.callbackContext = callbackContext;
@@ -24,10 +25,14 @@ class BannerListener extends AdListener {
     @Override
     public void onAdLoaded() {
         // Code to be executed when an ad finishes loading.
-        if (this.executor.plugin.bannerOverlap) {
-            executor.displayOverlapAd(callbackContext);
+        if (this.executor.plugin.autoshowBanner){
+            if (this.executor.plugin.bannerOverlap) {
+                executor.displayOverlapAd(callbackContext);
+            } else {
+                executor.displayClippedAd(callbackContext);
+            }
         } else {
-            executor.displayClippedAd(callbackContext);
+            callbackContext.success();
         }
 
         String js = new CordovaEventBuilder("ezadmob.banner.onAdLoaded").build();

@@ -21,7 +21,6 @@ public class Banner {
     private AdView adView;
     private RelativeLayout adViewLayout = null;
     private ViewGroup parentView;
-    private boolean bannerShow = true;
 
     protected ezadmob plugin;
 
@@ -33,7 +32,7 @@ public class Banner {
         plugin.webView.loadUrl(js);
     }
 
-    public void loadBanner(CallbackContext callbackContext){
+    public void loadAd(CallbackContext callbackContext){
         CordovaInterface cordova = plugin.cordova;
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override public void run() {

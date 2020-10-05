@@ -7,6 +7,10 @@ class ezadmob{
 		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_BANNER");
 	};
 
+	static displayBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "DISPLAY_BANNER");
+	};
+
 	static removeBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "REMOVE_BANNER", []);
 	};

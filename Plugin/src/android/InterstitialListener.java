@@ -11,6 +11,7 @@ import org.apache.cordova.CallbackContext;
 class InterstitialListener extends AdListener {
     private final Interstitial executor;
     CallbackContext callbackContext;
+
     InterstitialListener(Interstitial executor, CallbackContext callbackContext) {
         this.executor = executor;
         this.callbackContext = callbackContext;
@@ -18,9 +19,11 @@ class InterstitialListener extends AdListener {
 
     @Override
     public void onAdLoaded() {
-        
-        //executor.displayAd(callbackContext);
-        callbackContext.success();
+        if (this.executor.plugin.autoshowInterstitial){
+            executor.displayAd(callbackContext);
+        } else {
+            callbackContext.success();
+        }
 
         String js = new CordovaEventBuilder("ezadmob.interstitial.onAdLoaded").build();
         executor.loadJS(js);
