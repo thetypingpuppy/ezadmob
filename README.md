@@ -12,51 +12,53 @@ Before plugin can be used it needs initialisation through the declaration of the
 config = {
     BANNER_ID : 'ca-app-pub-3940256099942544/6300978111',
     INTERSTITIAL_ID : 'ca-app-pub-3940256099942544/1033173712,
-    BANNER_OVERLAP: false,
-    AUTOSHOW_BANNER: false,
-    AUTOSHOW_INTERSTITIAL: false};
+    BANNER_OVERLAP: false};
 
  ezadmob.init(config);
 ```
 
 ## Banner Usage
 
-#### Load & Display Banner
-If `AUTOSHOW_BANNER = true`, the banner advert will automatically show as soon as it is loaded (received by Google Admob server).
+#### Load Banner
 ```
 ezadmob.loadBanner(successCallback, errorCallback);
 ```
 
 #### Display Banner
-If `AUTOSHOW_BANNER = false`, the following function is required to display the advert.
 ```
 ezadmob.displayBanner(successCallback, errorCallback);
 ```
 
-#### Remove Banner
+#### Load & Display Banner
+```
+ezadmob.loadAndShowBanner(successCallback, errorCallback);
+```
 
+#### Remove Banner
 ```
 ezadmob.removeBanner(successCallback, errorCallback);
 ```
 
 ## Interstitial Usage
 
-#### Load & Display Interstitial Advert
-
-If `AUTOSHOW_INTERSTITIAL = true`, the interstitial advert will automatically show  as soon as it is loaded (received by Google Admob server).
+#### Load Interstitial Advert
 ```
 ezadmob.loadInterstitial(successCallback, errorCallback);
 ```
 
 #### Display Interstitial
-If `AUTOSHOW_INTERSTITIAL = false`, the following function is required to display the advert.
 ```
 ezadmob.displayInterstitial(successCallback, errorCallback);
 ```
 
+#### Load & Display Interstitial Advert
+```
+ezadmob.loadAndShowInterstitial(successCallback, errorCallback);
+```
+
 ## Listeners
 
-All Google Admob control listeners are accessible in cordova. 
+All Google Admob control listeners are accessible in Cordova. 
 
 Simply add listeners to your `index.js` or within `onDeviceReady()`.
 
