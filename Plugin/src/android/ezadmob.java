@@ -23,13 +23,6 @@ public class ezadmob extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (banner == null){
-            banner = new Banner(this);
-        }
-        if (interstitial == null){
-            interstitial = new Interstitial(this);
-        }
-
         if (action.equals("INIT")) {
             JSONObject jsonObj = args.getJSONObject(0);
             JSONArray keys = jsonObj.names ();
@@ -46,19 +39,45 @@ public class ezadmob extends CordovaPlugin {
                     bannerOverlap = jsonObj.getBoolean(key);
                 }
             }
+        }
 
+        // Init banner and interstitial classes
+        if (banner == null){
+            banner = new Banner(this);
+        }
+        if (interstitial == null){
+            interstitial = new Interstitial(this);
+        }
+
+
+        // Banner Functions
+        if (action.equals("LOAD_AND_SHOW_BANNER")) {
+            banner.loadAndShowAd(callbackContext);
         }
 
         if (action.equals("LOAD_BANNER")) {
-            banner.loadBanner(callbackContext);
+            banner.loadAd(callbackContext);
+        }
+
+        if (action.equals("DISPLAY_BANNER")) {
+            if (bannerOverlap) {
+                banner.displayOverlapAd(callbackContext);
+            } else {
+                banner.displayClippedAd(callbackContext);
+            }
         }
 
         if (action.equals("REMOVE_BANNER")) {
             banner.removeAd(callbackContext);
         }
 
+
+        if (action.equals("LOAD_AND_SHOW_INTERSTITIAL")) {
+            interstitial.loadAndShowAd(callbackContext);
+        }
+
         if (action.equals("LOAD_INTERSTITIAL")) {
-            interstitial.load(callbackContext);
+            interstitial.loadAd(callbackContext);
         }
 
         if (action.equals("DISPLAY_INTERSTITIAL")) {

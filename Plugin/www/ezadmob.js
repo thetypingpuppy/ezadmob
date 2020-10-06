@@ -3,12 +3,24 @@ class ezadmob{
 		cordova.exec(null, null, "ezadmob", "INIT", [args]);
 	};
 
+	static loadAndShowBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_AND_SHOW_BANNER");
+	};
+
 	static loadBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_BANNER");
 	};
 
+	static displayBanner(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "DISPLAY_BANNER");
+	};
+
 	static removeBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "REMOVE_BANNER", []);
+	};
+
+	static loadAndShowInterstitial(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_AND_SHOW_INTERSTITIAL", []);
 	};
 
 	static loadInterstitial(successCallback, errorCallback) {
