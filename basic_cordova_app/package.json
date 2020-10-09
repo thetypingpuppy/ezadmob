@@ -15,7 +15,6 @@
   "devDependencies": {
     "com.orbost.ezadmob": "file:../Plugin",
     "cordova-android": "^9.0.0",
-    "cordova-browser": "^6.0.0",
     "cordova-plugin-androidx": "^2.0.0",
     "cordova-plugin-whitelist": "^1.3.4",
     "ezadmob": "file:../Plugin"
@@ -24,11 +23,10 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "ezadmob": {
-        "ADMOB_APP_ID": "ca-app-pub-7578900025157829~6118086218"
+        "ADMOB_APP_ID": "ca-app-pub-3940256099942544~3347511713"
       }
     },
     "platforms": [
-      "browser",
       "android"
     ]
   }
