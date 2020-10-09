@@ -13,7 +13,7 @@
 @interface ViewController () <GADBannerViewDelegate>
 
 @property(nonatomic, strong) GADBannerView *bannerView;
-@property BOOL *bannerOverlap;
+@property(assign) bool bannerLoaded;
 
 @end
 
@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.bannerLoaded = false;
     
     // Load banner view button
     UIButton *loadBannerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -48,26 +49,29 @@
     [self.view addSubview:showBannerButton];
 }
 
+// -- Banner Advert Button Functions -----------------------------------------------------------------------------
+
 - (void)loadBannerButton:(UIButton *)sender {
     [self loadBanner];
 }
 
 - (void)removeBannerButton:(UIButton *)sender {
-    if (self.bannerView){
-        [self removeBanner];
-    };
+    [self removeBanner];
 }
 
 - (void)showBannerButton:(UIButton *)sender {
-    if (self.bannerView){
-        [self showBanner];
-    };
+    [self showBanner];
 }
 
+// -- Banner Advert Control Functions -----------------------------------------------------------------------------
+
 - (void)removeBanner {
-    [self.bannerView setDelegate:nil];
-    [self.bannerView removeFromSuperview];
+    if (self.bannerView){
+        [self.bannerView setDelegate:nil];
+        [self.bannerView removeFromSuperview];
+    }
     self.bannerView = nil;
+    self.bannerLoaded = false;
 }
 
 - (void)loadBanner {
@@ -80,7 +84,9 @@
 }
 
 - (void)showBanner {
-    [self addBannerViewToView:self.bannerView];
+    if (self.bannerLoaded){
+        [self addBannerViewToView:self.bannerView];
+    }
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -105,17 +111,19 @@
 }
 
 
-
+// -- Banner Advert Listener Functions -----------------------------------------------------------------------------
 
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(GADBannerView *)adView {
-  NSLog(@"adViewDidReceiveAd");
+    NSLog(@"adViewDidReceiveAd");
+    self.bannerLoaded = true;
 }
 
 // Tells the delegate an ad request failed.
 - (void)adView:(GADBannerView *)adView
     didFailToReceiveAdWithError:(GADRequestError *)error {
-  NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    self.bannerLoaded = false;
 }
 
 // Tells the delegate that a full-screen view will be presented in response to the user clicking on an ad.
@@ -137,6 +145,13 @@
 - (void)adViewWillLeaveApplication:(GADBannerView *)adView {
   NSLog(@"adViewWillLeaveApplication");
 }
+
+
+// -- Interstitial Advert Button Functions -----------------------------------------------------------------------------
+
+// -- Interstitial Advert Control Functions -----------------------------------------------------------------------------
+
+// -- Interstitial Advert Listener Functions -----------------------------------------------------------------------------
 
 
 @end
