@@ -21,27 +21,83 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
+document.addEventListener('ezadmob.banner.onAdLoaded', function(event) {
+    bannerAdLoaded = true;
+});
+
+document.addEventListener('ezadmob.banner.onAdFailedToLoad', function(event) {
+    bannerAdLoaded = false;
+});
+
+document.addEventListener('ezadmob.banner.onAdClosed', function(event) {
+    bannerAdLoaded = false;
+});
+
+document.addEventListener('ezadmob.interstitial.onAdLoaded', function(event) {
+    interstitialAdLoaded = true;
+});
+
+document.addEventListener('ezadmob.interstitial.onAdFailedToLoad', function(event) {
+    interstitialAdLoaded = false;
+});
+
+document.addEventListener('ezadmob.interstitial.onAdClosed', function(event) {
+    interstitialAdLoaded = false;
+});
+
+
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
+
+    //Test ADMOB_APP_ID : ca-app-pub-3940256099942544~3347511713
 
     ezadmob.init({
         BANNER_ID : "ca-app-pub-3940256099942544/6300978111",
         INTERSTITIAL_ID : "ca-app-pub-3940256099942544/1033173712",
-        BANNER_OVERLAP: true});
+        BANNER_OVERLAP: false});
 
-    document.getElementById("bannerShowButton").addEventListener("click", bannerShow);
-    document.getElementById("bannerHideButton").addEventListener("click", bannerHide);
-    document.getElementById("interstitialShowButton").addEventListener("click", interstitialShow);
+    document.getElementById("bannerLoadButton").addEventListener("click", bannerLoad);
+    document.getElementById("bannerDisplayButton").addEventListener("click", bannerDisplay);
+    document.getElementById("bannerRemoveButton").addEventListener("click", bannerRemove);
+    document.getElementById("bannerLoadAndShowButton").addEventListener("click", bannerLoadAndShow);
+
+    document.getElementById("interstitialLoadButton").addEventListener("click", interstitialLoad);
+    document.getElementById("interstitialDisplayButton").addEventListener("click", interstitialDisplay);
+    document.getElementById("interstitialLoadAndShowButton").addEventListener("click", interstitialLoadAndShow);
+
 }
 
-function bannerShow(){
+var bannerAdLoaded = false;
+var interstitialAdLoaded = false;
+
+function bannerLoad(){
     ezadmob.loadBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
 }
 
-function bannerHide(){
-    ezadmob.removeBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+function bannerDisplay(){
+    if (bannerAdLoaded){
+        ezadmob.displayBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+    }
+}
+
+function bannerRemove(){
+    ezadmob.removeBanner(function() { bannerAdLoaded = false; console.log("No Errors"); }, function(err) { console.log(err); });
 } 
 
-function interstitialShow(){
+function bannerLoadAndShow(){
+    ezadmob.loadAndShowBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+} 
+
+function interstitialLoad(){
     ezadmob.loadInterstitial(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+} 
+
+function interstitialDisplay(){
+    if (interstitialAdLoaded){
+        ezadmob.displayInterstitial(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+    }
+} 
+
+function interstitialLoadAndShow(){
+    ezadmob.loadAndShowInterstitial(function() { console.log("No Errors"); }, function(err) { console.log(err); });
 } 
