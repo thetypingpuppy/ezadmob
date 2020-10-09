@@ -81,7 +81,7 @@ function bannerDisplay(){
 }
 
 function bannerRemove(){
-    ezadmob.removeBanner(function() { console.log("No Errors"); }, function(err) { console.log(err); });
+    ezadmob.removeBanner(function() { bannerAdLoaded = false; console.log("No Errors"); }, function(err) { console.log(err); });
 } 
 
 function bannerLoadAndShow(){
