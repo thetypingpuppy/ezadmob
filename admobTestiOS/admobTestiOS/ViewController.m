@@ -10,9 +10,11 @@
 
 @import GoogleMobileAds;
 
-@interface ViewController () <GADBannerViewDelegate>
+@interface ViewController () <GADBannerViewDelegate,GADInterstitialDelegate>
 
 @property(nonatomic, strong) GADBannerView *bannerView;
+@property(nonatomic, strong) GADInterstitial *interstitialView;
+
 @property(assign) bool bannerLoaded;
 
 @end
@@ -24,29 +26,45 @@
     // Do any additional setup after loading the view.
     self.bannerLoaded = false;
     
-    // Load banner view button
+    // Load banner advert button
     UIButton *loadBannerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [loadBannerButton addTarget:self
                          action:@selector(loadBannerButton:) forControlEvents:UIControlEventTouchUpInside];
     [loadBannerButton setTitle:@"Load Banner" forState:UIControlStateNormal];
-    [loadBannerButton setFrame: CGRectMake(80, 210, 160, 40)];
+    [loadBannerButton setFrame: CGRectMake(80, 210, 180, 40)];
     [self.view addSubview:loadBannerButton];
     
-    // Remove banner view button
+    // Remove banner advert button
     UIButton *removeBannerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [removeBannerButton addTarget:self
                          action:@selector(removeBannerButton:) forControlEvents:UIControlEventTouchUpInside];
     [removeBannerButton setTitle:@"Remove Banner" forState:UIControlStateNormal];
-    [removeBannerButton setFrame: CGRectMake(80, 250, 160, 40)];
+    [removeBannerButton setFrame: CGRectMake(80, 240, 180, 40)];
     [self.view addSubview:removeBannerButton];
      
-    // Show banner view button
+    // Show banner advert button
     UIButton *showBannerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [showBannerButton addTarget:self
                          action:@selector(showBannerButton:) forControlEvents:UIControlEventTouchUpInside];
     [showBannerButton setTitle:@"Show Banner" forState:UIControlStateNormal];
-    [showBannerButton setFrame: CGRectMake(80, 300, 160, 40)];
+    [showBannerButton setFrame: CGRectMake(80, 280, 180, 40)];
     [self.view addSubview:showBannerButton];
+    
+    // Load interstitial button
+    UIButton *loadInterstitialButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [loadInterstitialButton addTarget:self
+                         action:@selector(loadInterstitialButton:) forControlEvents:UIControlEventTouchUpInside];
+    [loadInterstitialButton setTitle:@"Load Interstitial" forState:UIControlStateNormal];
+    [loadInterstitialButton setFrame: CGRectMake(80, 320, 180, 40)];
+    [self.view addSubview:loadInterstitialButton];
+    
+    // Show interstitial button
+    UIButton *showInterstitialButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [showInterstitialButton addTarget:self
+                         action:@selector(showInterstitialButton:) forControlEvents:UIControlEventTouchUpInside];
+    [showInterstitialButton setTitle:@"Show Interstitial" forState:UIControlStateNormal];
+    [showInterstitialButton setFrame: CGRectMake(80, 360, 180, 40)];
+    [self.view addSubview:showInterstitialButton];
 }
 
 // -- Banner Advert Button Functions -----------------------------------------------------------------------------
@@ -149,9 +167,61 @@
 
 // -- Interstitial Advert Button Functions -----------------------------------------------------------------------------
 
+- (void)loadInterstitialButton:(UIButton *)sender {
+    [self loadInterstitial];
+}
+
+- (void)showInterstitialButton:(UIButton *)sender {
+    [self showInterstitial];
+}
+
 // -- Interstitial Advert Control Functions -----------------------------------------------------------------------------
+
+- (void) loadInterstitial {
+    self.interstitialView = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+    [self.interstitialView loadRequest:[GADRequest request]];
+    self.interstitialView.delegate = self;
+}
+
+- (void) showInterstitial {
+    if (self.interstitialView.isReady) {
+        [self.interstitialView presentFromRootViewController:self];
+    } else {
+        NSLog(@"Ad wasn't ready");
+    }
+}
 
 // -- Interstitial Advert Listener Functions -----------------------------------------------------------------------------
 
+// Tells the delegate an ad request succeeded.
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
+    NSLog(@"interstitialDidReceiveAd");
+}
+
+// Tells the delegate an ad request failed.
+- (void)interstitial:(GADInterstitial *)ad
+    didFailToReceiveAdWithError:(GADRequestError *)error {
+    NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+}
+
+// Tells the delegate that an interstitial will be presented.
+- (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
+    NSLog(@"interstitialWillPresentScreen");
+}
+
+// Tells the delegate the interstitial is to be animated off the screen.
+- (void)interstitialWillDismissScreen:(GADInterstitial *)ad {
+    NSLog(@"interstitialWillDismissScreen");
+}
+
+// Tells the delegate the interstitial had been animated off the screen.
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+    NSLog(@"interstitialDidDismissScreen");
+}
+
+// Tells the delegate that a user click will open another app (such as the App Store), backgrounding the current app.
+- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
+    NSLog(@"interstitialWillLeaveApplication");
+}
 
 @end
