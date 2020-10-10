@@ -91,6 +91,9 @@
           </pods>
       </podspec>
 
+      <source-file src="src/ios/ezadmob.h" target-dir="Plugins" />
+      <source-file src="src/ios/ezadmob.m" target-dir="Plugins" />
+
   </platform>
 
 </plugin>
