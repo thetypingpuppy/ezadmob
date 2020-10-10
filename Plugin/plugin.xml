@@ -65,7 +65,7 @@
 
       <config-file target="config.xml" parent="/*">
           <feature name="ezadmob">
-              <param name="ios-package" value="com.orbost.plugins.ezadmob"/>
+              <param name="ios-package" value="ezadmob"/>
           </feature>
       </config-file>
 
