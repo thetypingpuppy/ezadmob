@@ -1,7 +1,43 @@
-#import "CDVAdmob.h"
+#import "ezadmob.h"
 #import <Cordova/CDVPlugin.h>
+#import <malloc/malloc.h>
+
+@import GoogleMobileAds;
 
 @interface ezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
+
+- (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command;
+- (void)REMOVE_BANNER:(CDVInvokedUrlCommand*)command;
+- (void)LOAD_BANNER:(CDVInvokedUrlCommand*)command;
+- (void)DISPLAY_BANNER:(CDVInvokedUrlCommand*)command;
+
+- (void)loadAndShowBanner;
+- (void)removeBanner;
+- (void)loadBanner;
+- (void)showBanner;
+- (void)addBannerViewToView:(UIView *)bannerView;
+
+- (void)adViewDidReceiveAd:(GADBannerView *)adView;
+- (void)adView:(GADBannerView *)adView didFailToReceiveAdWithError:(GADRequestError *)error;
+- (void)adViewWillPresentScreen:(GADBannerView *)adView;
+- (void)adViewWillLeaveApplication:(GADBannerView *)adView;
+
+- (void)LOAD_INTERSTITIAL:(CDVInvokedUrlCommand*)command;
+- (void)DISPLAY_INTERSTITIAL:(CDVInvokedUrlCommand*)command;
+- (void)LOAD_AND_SHOW_INTERSTITIAL:(CDVInvokedUrlCommand*)command;
+- (void)INIT:(CDVInvokedUrlCommand*)command;
+
+- (void)loadInterstitial;
+- (void)showInterstitial;
+- (void)loadAndShowInterstitial;
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad;
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error;
+- (void)interstitialWillPresentScreen:(GADInterstitial *)ad;
+- (void)interstitialWillDismissScreen:(GADInterstitial *)ad;
+- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad ;
+
+- (void)fireEvent:(NSString *)obj event:(NSString *)eventName withData:(NSString *)jsonStr;
 
 @property(nonatomic, strong) GADBannerView *bannerView;
 @property(nonatomic, strong) GADInterstitial *interstitialView;
@@ -10,11 +46,14 @@
 @property(assign) bool loadAndShowBannerCheck;
 @property(assign) bool loadAndShowInterstitialCheck;
 
+@property(nonatomic, strong) NSString* bannerID;
+@property(nonatomic, strong) NSString* interstitialID;
+
 @end
 
 @implementation ezadmob
 
-// -- Banner Advert JS Linker Functions
+// -- Banner Advert Cordova Linker Functions
 // -----------------------------------------------------------------------------
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command {
@@ -26,11 +65,11 @@
 }
 
 - (void)LOAD_BANNER:(CDVInvokedUrlCommand*)command {
-    [self loadBanner]
+    [self loadBanner];
 }
 
 - (void)DISPLAY_BANNER:(CDVInvokedUrlCommand*)command {
-    [self showBanner]
+    [self showBanner];
 }
 
 // -- Banner Advert Control Functions
@@ -51,9 +90,13 @@
 }
 
 - (void)loadBanner {
+    if (self.bannerView){
+        [self removeBanner];
+    }
+    
     self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
-    self.bannerView.rootViewController = self;
+    self.bannerView.adUnitID = self.bannerID;
+    self.bannerView.rootViewController = self.viewController;
     self.bannerView.delegate = self;
     
     [self.bannerView loadRequest:[GADRequest request]];
@@ -67,19 +110,20 @@
 
 - (void)addBannerViewToView:(UIView *)bannerView {
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:bannerView];
-    [self.view addConstraints:@[
+    [self.webView addSubview:bannerView];
+    [self.webView bringSubviewToFront:bannerView];
+    [self.webView addConstraints:@[
         [NSLayoutConstraint constraintWithItem:bannerView
                                      attribute:NSLayoutAttributeBottom
                                      relatedBy:NSLayoutRelationEqual
-                                        toItem:self.bottomLayoutGuide
-                                     attribute:NSLayoutAttributeTop
+                                        toItem:self.webView.safeAreaLayoutGuide
+                                     attribute:NSLayoutAttributeBottom
                                     multiplier:1
                                       constant:0],
         [NSLayoutConstraint constraintWithItem:bannerView
                                      attribute:NSLayoutAttributeCenterX
                                      relatedBy:NSLayoutRelationEqual
-                                        toItem:self.view
+                                        toItem:self.webView.safeAreaLayoutGuide
                                      attribute:NSLayoutAttributeCenterX
                                     multiplier:1
                                       constant:0]
@@ -87,11 +131,13 @@
 }
 
 
-// -- Banner Advert Listener Functions -----------------------------------------------------------------------------
+// -- Banner Advert Listener Functions
+// -----------------------------------------------------------------------------
 
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(GADBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
+    [self fireEvent:@"" event:@"ezadmob.banner.onAdLoaded" withData:nil];
     self.bannerLoaded = true;
     if (self.loadAndShowBannerCheck){
         [self showBanner];
@@ -103,70 +149,77 @@
 - (void)adView:(GADBannerView *)adView
     didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    [self fireEvent:@"" event:@"ezadmob.banner.onAdFailedToLoad" withData:nil];
     self.bannerLoaded = false;
 }
 
 // Tells the delegate that a full-screen view will be presented in response to the user clicking on an ad.
 - (void)adViewWillPresentScreen:(GADBannerView *)adView {
-  NSLog(@"adViewWillPresentScreen");
+    NSLog(@"adViewWillPresentScreen");
+    [self fireEvent:@"" event:@"ezadmob.banner.onAdOpened" withData:nil];
 }
 
 // Tells the delegate that the full-screen view will be dismissed.
-- (void)adViewWillDismissScreen:(GADBannerView *)adView {
-  NSLog(@"adViewWillDismissScreen");
-}
-
-/// Tells the delegate that the full-screen view has been dismissed.
-- (void)adViewDidDismissScreen:(GADBannerView *)adView {
-  NSLog(@"adViewDidDismissScreen");
-}
+//- (void)adViewWillDismissScreen:(GADBannerView *)adView {
+//    NSLog(@"adViewWillDismissScreen");
+//}
+//
+//// Tells the delegate that the full-screen view has been dismissed.
+//- (void)adViewDidDismissScreen:(GADBannerView *)adView {
+//    NSLog(@"adViewDidDismissScreen");
+//}
 
 // Tells the delegate that a user click will open another app (such as the App Store), backgrounding the current app.
 - (void)adViewWillLeaveApplication:(GADBannerView *)adView {
-  NSLog(@"adViewWillLeaveApplication");
+    NSLog(@"adViewWillLeaveApplication");
+    [self fireEvent:@"" event:@"ezadmob.banner.onAdLeftApplication" withData:nil];
 }
 
 
-// -- Interstitial Advert Button Functions -----------------------------------------------------------------------------
+// -- Interstitial Advert Cordova Linker Functions
+// -----------------------------------------------------------------------------
 
-- (void)_loadInterstitial:(UIButton *)sender {
+- (void)LOAD_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self loadInterstitial];
 }
 
-- (void)_showInterstitial:(UIButton *)sender {
+- (void)DISPLAY_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self showInterstitial];
 }
 
-- (void)_loadAndShowInterstitial:(UIButton *)sender {
+- (void)LOAD_AND_SHOW_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self loadAndShowInterstitial];
 }
 
-// -- Interstitial Advert Control Functions -----------------------------------------------------------------------------
+// -- Interstitial Advert Control Functions
+// -----------------------------------------------------------------------------
 
-- (void) loadInterstitial {
-    self.interstitialView = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+- (void)loadInterstitial {
+    self.interstitialView = [[GADInterstitial alloc] initWithAdUnitID:self.interstitialID];
     [self.interstitialView loadRequest:[GADRequest request]];
     self.interstitialView.delegate = self;
 }
 
-- (void) showInterstitial {
+- (void)showInterstitial {
     if (self.interstitialView.isReady) {
-        [self.interstitialView presentFromRootViewController:self];
+        [self.interstitialView presentFromRootViewController:self.viewController];
     } else {
         NSLog(@"Ad wasn't ready");
     }
 }
 
-- (void) loadAndShowInterstitial {
+- (void)loadAndShowInterstitial {
     self.loadAndShowInterstitialCheck = true;
     [self loadInterstitial];
 }
 
-// -- Interstitial Advert Listener Functions -----------------------------------------------------------------------------
+// -- Interstitial Advert Listener Functions
+// -----------------------------------------------------------------------------
 
 // Tells the delegate an ad request succeeded.
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
+    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdLoaded" withData:nil];
     if (self.loadAndShowInterstitialCheck){
         [self showInterstitial];
         self.loadAndShowInterstitialCheck = false;
@@ -177,26 +230,64 @@
 - (void)interstitial:(GADInterstitial *)ad
     didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdFailedToLoad" withData:nil];
 }
 
 // Tells the delegate that an interstitial will be presented.
 - (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
+    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdOpened" withData:nil];
 }
 
 // Tells the delegate the interstitial is to be animated off the screen.
 - (void)interstitialWillDismissScreen:(GADInterstitial *)ad {
     NSLog(@"interstitialWillDismissScreen");
+    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdClosed" withData:nil];
 }
 
 // Tells the delegate the interstitial had been animated off the screen.
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    NSLog(@"interstitialDidDismissScreen");
-}
+//- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+//    NSLog(@"interstitialDidDismissScreen");
+//    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdLeftApplication" withData:nil];
+//}
 
 // Tells the delegate that a user click will open another app (such as the App Store), backgrounding the current app.
 - (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
     NSLog(@"interstitialWillLeaveApplication");
+    [self fireEvent:@"" event:@"ezadmob.interstitial.onAdLeftApplication" withData:nil];
 }
+
+// -- Additional Cordova linker functions
+// -----------------------------------------------------------------------------
+
+- (void)fireEvent:(NSString *)obj event:(NSString *)eventName withData:(NSString *)jsonStr {
+    NSString * js;
+    if (obj && [obj isEqualToString:@"window"]){
+        js = [NSString stringWithFormat:@"var evt=document.createEvent(\"UIEvents\");evt.initUIEvents(\"%@\",true,false,window,0);window.dispatchEvent(evt);", eventName];
+    } else if (jsonStr && [jsonStr length]>0){
+        js = [NSString stringWithFormat:@"javascript:cordova.fireDocumentEvent('%@','%@');", eventName, jsonStr];
+    } else {
+        js = [NSString stringWithFormat:@"javascript:cordova.fireDocumentEvent('%@');", eventName];
+    }
+    [self.commandDelegate evalJs:js];
+}
+
+- (void)INIT:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = nil;
+    NSDictionary* arg = [command.arguments objectAtIndex:0];
+    
+    self.bannerID = @"ca-app-pub-3940256099942544/2934735716";
+    self.interstitialID = @"ca-app-pub-3940256099942544/4411468910";
+    
+    for(id key in arg){
+        if ([key isEqualToString:@"BANNER_ID"]){
+            self.bannerID = [arg objectForKey:key];
+        }
+        if ([key isEqualToString:@"INTERSTITIAL_ID"]){
+            self.interstitialID = [arg objectForKey:key];
+        }
+    }
+}
+
 
 @end
