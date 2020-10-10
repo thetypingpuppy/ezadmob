@@ -59,5 +59,38 @@
   </platform>
 
   <!-- more platforms here -->
+  <platform name="ios">
+
+      <preference name="ADMOB_APP_ID" default="ca-app-pub-3940256099942544~1458002511"/>
+
+      <config-file target="config.xml" parent="/*">
+          <feature name="ezadmob">
+              <param name="ios-package" value="com.orbost.plugins.ezadmob"/>
+          </feature>
+      </config-file>
+
+      <config-file target="*-Info.plist" parent="SKAdNetworkItems">
+          <array>
+              <dict>
+                  <key>SKAdNetworkIdentifier</key>
+                  <string>cstr6suwn9.skadnetwork</string>
+              </dict>
+          </array>
+      </config-file>
+
+      <config-file target="*-Info.plist" parent="GADApplicationIdentifier">
+          <string>$ADMOB_APP_ID</string>
+      </config-file>
+      
+      <podspec>
+          <config>
+            <source url="https://github.com/CocoaPods/Specs.git"/> 
+          </config>
+          <pods use-frameworks="true">
+              <pod name="Google-Mobile-Ads-SDK"/>
+          </pods>
+      </podspec>
+
+  </platform>
 
 </plugin>
