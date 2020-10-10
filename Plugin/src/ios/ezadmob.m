@@ -39,8 +39,8 @@
 
 - (void)fireEvent:(NSString *)obj event:(NSString *)eventName withData:(NSString *)jsonStr;
 
-@property(nonatomic, strong) GADBannerView *bannerView;
-@property(nonatomic, strong) GADInterstitial *interstitialView;
+@property(nonatomic, strong) GADBannerView* bannerView;
+@property(nonatomic, strong) GADInterstitial* interstitialView;
 
 @property(assign) bool bannerLoaded;
 @property(assign) bool loadAndShowBannerCheck;
@@ -48,6 +48,9 @@
 
 @property(nonatomic, strong) NSString* bannerID;
 @property(nonatomic, strong) NSString* interstitialID;
+
+@property(nonatomic, strong) CDVPluginResult* pluginResult;
+@property(nonatomic, strong) NSString* callbackID;
 
 @end
 
@@ -58,18 +61,22 @@
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command {
     [self loadAndShowBanner];
+    self.callbackID = command.callbackId;
 }
 
 - (void)REMOVE_BANNER:(CDVInvokedUrlCommand*)command {
     [self removeBanner];
+    self.callbackID = command.callbackId;
 }
 
 - (void)LOAD_BANNER:(CDVInvokedUrlCommand*)command {
     [self loadBanner];
+    self.callbackID = command.callbackId;
 }
 
 - (void)DISPLAY_BANNER:(CDVInvokedUrlCommand*)command {
     [self showBanner];
+    self.callbackID = command.callbackId;
 }
 
 // -- Banner Advert Control Functions
@@ -87,6 +94,9 @@
     }
     self.bannerView = nil;
     self.bannerLoaded = false;
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
 }
 
 - (void)loadBanner {
@@ -105,7 +115,12 @@
 - (void)showBanner {
     if (self.bannerLoaded){
         [self addBannerViewToView:self.bannerView];
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Run loadBanner() first."];
     }
+    
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -137,7 +152,12 @@
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(GADBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
+    
     [self fireEvent:@"" event:@"ezadmob.banner.onAdLoaded" withData:nil];
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    
     self.bannerLoaded = true;
     if (self.loadAndShowBannerCheck){
         [self showBanner];
@@ -149,7 +169,12 @@
 - (void)adView:(GADBannerView *)adView
     didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    
     [self fireEvent:@"" event:@"ezadmob.banner.onAdFailedToLoad" withData:nil];
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Banner Ad failed to load, wait and try again."];
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    
     self.bannerLoaded = false;
 }
 
@@ -181,14 +206,17 @@
 
 - (void)LOAD_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self loadInterstitial];
+    self.callbackID = command.callbackId;
 }
 
 - (void)DISPLAY_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self showInterstitial];
+    self.callbackID = command.callbackId;
 }
 
 - (void)LOAD_AND_SHOW_INTERSTITIAL:(CDVInvokedUrlCommand*)command {
     [self loadAndShowInterstitial];
+    self.callbackID = command.callbackId;
 }
 
 // -- Interstitial Advert Control Functions
@@ -204,8 +232,9 @@
     if (self.interstitialView.isReady) {
         [self.interstitialView presentFromRootViewController:self.viewController];
     } else {
-        NSLog(@"Ad wasn't ready");
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Interstitial Ad not ready, run loadInterstitial() first."];
     }
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
 }
 
 - (void)loadAndShowInterstitial {
@@ -220,6 +249,10 @@
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
     [self fireEvent:@"" event:@"ezadmob.interstitial.onAdLoaded" withData:nil];
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    
     if (self.loadAndShowInterstitialCheck){
         [self showInterstitial];
         self.loadAndShowInterstitialCheck = false;
@@ -230,7 +263,11 @@
 - (void)interstitial:(GADInterstitial *)ad
     didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
+    
     [self fireEvent:@"" event:@"ezadmob.interstitial.onAdFailedToLoad" withData:nil];
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Interstitial Ad failed to load, wait and try again."];
+    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
 }
 
 // Tells the delegate that an interstitial will be presented.
@@ -273,7 +310,8 @@
 }
 
 - (void)INIT:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
+    self.pluginResult = nil;
+    self.callbackID = command.callbackId;
     NSDictionary* arg = [command.arguments objectAtIndex:0];
     
     self.bannerID = @"ca-app-pub-3940256099942544/2934735716";
