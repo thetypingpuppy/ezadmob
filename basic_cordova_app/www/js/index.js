@@ -45,6 +45,20 @@ document.addEventListener('ezadmob.interstitial.onAdClosed', function(event) {
     interstitialAdLoaded = false;
 });
 
+var admobid = {};
+
+// Test Adverts
+if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
+    admobid = {
+        banner: 'ca-app-pub-3940256099942544/6300978111',
+        interstitial: 'ca-app-pub-3940256099942544/1033173712',
+    }
+} else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) {  // for ios
+    admobid = {
+        banner: 'ca-app-pub-3940256099942544/2934735716',
+        interstitial: 'ca-app-pub-3940256099942544/4411468910',
+    }
+}
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -52,8 +66,8 @@ function onDeviceReady() {
     //Test ADMOB_APP_ID : ca-app-pub-3940256099942544~3347511713
 
     ezadmob.init({
-        BANNER_ID : "ca-app-pub-3940256099942544/6300978111",
-        INTERSTITIAL_ID : "ca-app-pub-3940256099942544/1033173712",
+        BANNER_ID : admobid.banner,
+        INTERSTITIAL_ID : admobid.interstitial,
         BANNER_OVERLAP: false});
 
     document.getElementById("bannerLoadButton").addEventListener("click", bannerLoad);
