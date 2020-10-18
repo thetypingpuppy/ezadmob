@@ -60,23 +60,23 @@
 // -----------------------------------------------------------------------------
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command {
-    [self loadAndShowBanner];
     self.callbackID = command.callbackId;
+    [self loadAndShowBanner];
 }
 
 - (void)REMOVE_BANNER:(CDVInvokedUrlCommand*)command {
-    [self removeBanner];
     self.callbackID = command.callbackId;
+    [self removeBanner];
 }
 
 - (void)LOAD_BANNER:(CDVInvokedUrlCommand*)command {
-    [self loadBanner];
     self.callbackID = command.callbackId;
+    [self loadBanner];
 }
 
 - (void)DISPLAY_BANNER:(CDVInvokedUrlCommand*)command {
-    [self showBanner];
     self.callbackID = command.callbackId;
+    [self showBanner];
 }
 
 // -- Banner Advert Control Functions
@@ -96,7 +96,7 @@
     self.bannerLoaded = false;
     
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
 }
 
 - (void)loadBanner {
@@ -120,7 +120,7 @@
         self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Run loadBanner() first."];
     }
     
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -156,7 +156,7 @@
     [self fireEvent:@"" event:@"ezadmob.banner.onAdLoaded" withData:nil];
     
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
     
     self.bannerLoaded = true;
     if (self.loadAndShowBannerCheck){
@@ -173,7 +173,7 @@
     [self fireEvent:@"" event:@"ezadmob.banner.onAdFailedToLoad" withData:nil];
     
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Banner Ad failed to load, wait and try again."];
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
     
     self.bannerLoaded = false;
 }
@@ -234,7 +234,7 @@
     } else {
         self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Interstitial Ad not ready, run loadInterstitial() first."];
     }
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
 }
 
 - (void)loadAndShowInterstitial {
@@ -251,7 +251,7 @@
     [self fireEvent:@"" event:@"ezadmob.interstitial.onAdLoaded" withData:nil];
     
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
     
     if (self.loadAndShowInterstitialCheck){
         [self showInterstitial];
@@ -267,7 +267,7 @@
     [self fireEvent:@"" event:@"ezadmob.interstitial.onAdFailedToLoad" withData:nil];
     
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Interstitial Ad failed to load, wait and try again."];
-    [self.commandDelegate sendPluginResult:_pluginResult callbackId:self.callbackID];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
 }
 
 // Tells the delegate that an interstitial will be presented.

@@ -24,7 +24,7 @@
   <!-- android -->
   <platform name="android">
 
-    <preference name="ADMOB_APP_ID" default=""/>
+    <preference name="ADMOB_APP_ID_DROID" default="ca-app-pub-3940256099942544~3347511713"/>
 
     <dependency id="cordova-plugin-androidx" version="2.0.0"/>
     
@@ -39,7 +39,7 @@
         <activity android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
-        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="$ADMOB_APP_ID"/>
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="$ADMOB_APP_ID_DROID"/>
     </config-file>
 
     <config-file target="res/xml/config.xml" parent="/*">
@@ -61,7 +61,7 @@
   <!-- more platforms here -->
   <platform name="ios">
 
-      <preference name="ADMOB_APP_ID" default="ca-app-pub-3940256099942544~1458002511"/>
+      <preference name="ADMOB_APP_ID_IOS" default="ca-app-pub-3940256099942544~1458002511"/>
 
       <config-file target="config.xml" parent="/*">
           <feature name="ezadmob">
@@ -79,7 +79,7 @@
       </config-file>
 
       <config-file target="*-Info.plist" parent="GADApplicationIdentifier">
-          <string>$ADMOB_APP_ID</string>
+          <string>$ADMOB_APP_ID_IOS</string>
       </config-file>
       
       <podspec>
