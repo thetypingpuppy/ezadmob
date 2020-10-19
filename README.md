@@ -4,7 +4,7 @@ Simplest Cordova plugin for implmenting Google Admob banner and interstitial adv
 
 ## Installation
 ```
-cordova plugin add C/path_to_plugin_folder --variable ADMOB_APP_ID_DROID=ca-app-pub-3940256099942544~334751171 --variable ADMOB_APP_ID_IOS=ca-app-pub-3940256099942544~1458002511
+cordova plugin add https://github.com/thetypingpuppy/ezadmob.git --variable ADMOB_APP_ID_DROID=ca-app-pub-3940256099942544~334751171 --variable ADMOB_APP_ID_IOS=ca-app-pub-3940256099942544~1458002511
 ```
 
 ## Initialisation
