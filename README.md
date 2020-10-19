@@ -1,4 +1,6 @@
 # ezadmob
+Simplest Cordova plugin for implmenting Google Admob banner and interstitial adverts in both Android and iOS platforms.
+- Compatible with latest Android +10 and iOS +13
 
 ## Installation
 ```
