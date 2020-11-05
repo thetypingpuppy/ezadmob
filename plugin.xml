@@ -70,12 +70,15 @@
       </config-file>
 
       <config-file target="*-Info.plist" parent="SKAdNetworkItems">
-          <array>
-              <dict>
-                  <key>SKAdNetworkIdentifier</key>
-                  <string>cstr6suwn9.skadnetwork</string>
-              </dict>
-          </array>
+            <key>SKAdNetworkItems</key>
+            <array>
+                <dict>
+                    <key>SKAdNetworkIdentifier</key>
+                    <string>cstr6suwn9.skadnetwork</string>
+                </dict>
+            </array>
+            <key>NSUserTrackingUsageDescription</key>
+            <string>This identifier will be used to deliver personalized ads to you.</string>
       </config-file>
 
       <config-file target="*-Info.plist" parent="GADApplicationIdentifier">

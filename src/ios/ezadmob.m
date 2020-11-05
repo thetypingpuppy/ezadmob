@@ -2,9 +2,14 @@
 #import <Cordova/CDVPlugin.h>
 #import <malloc/malloc.h>
 
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/AdSupport.h>
+
 @import GoogleMobileAds;
 
 @interface ezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
+
+- (void)REQUEST_IDFA:(CDVInvokedUrlCommand*)command;
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command;
 - (void)REMOVE_BANNER:(CDVInvokedUrlCommand*)command;
@@ -55,6 +60,15 @@
 @end
 
 @implementation ezadmob
+
+- (void)REQUEST_IDFA:(CDVInvokedUrlCommand*)command {
+    [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+        self.callbackID = command.callbackId;
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
+    }];
+}
+
 
 // -- Banner Advert Cordova Linker Functions
 // -----------------------------------------------------------------------------

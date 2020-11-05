@@ -3,6 +3,10 @@ class ezadmob{
 		cordova.exec(null, null, "ezadmob", "INIT", [args]);
 	};
 
+	static requestIDFA(successCallback, errorCallback) {
+		cordova.exec(successCallback, errorCallback, "ezadmob", "REQUEST_IDFA");
+	};
+
 	static loadAndShowBanner(successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, "ezadmob", "LOAD_AND_SHOW_BANNER");
 	};
