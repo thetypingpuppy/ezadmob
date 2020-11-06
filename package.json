@@ -1,11 +1,12 @@
 {
   "name": "ezadmob",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "\n    Cordova plugin for admob implementation.\n  ",
   "cordova": {
     "id": "com.orbost.ezadmob",
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   },
   "keywords": [
@@ -19,5 +20,13 @@
     }
   ],
   "author": "Orbost",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetypingpuppy/ezadmob.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thetypingpuppy/ezadmob/issues"
+  },
+  "homepage": "https://github.com/thetypingpuppy/ezadmob#readme"
 }
