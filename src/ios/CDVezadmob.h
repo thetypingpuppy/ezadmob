@@ -2,7 +2,7 @@
 
 @import GoogleMobileAds;
 
-@interface ezadmob : CDVPlugin
+@interface CDVezadmob : CDVPlugin
 
 
 @end

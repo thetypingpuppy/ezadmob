@@ -65,7 +65,7 @@
 
       <config-file target="config.xml" parent="/*">
           <feature name="ezadmob">
-              <param name="ios-package" value="ezadmob"/>
+              <param name="ios-package" value="CDVezadmob"/>
           </feature>
       </config-file>
 
@@ -96,8 +96,8 @@
           </pods>
       </podspec>
 
-      <source-file src="src/ios/ezadmob.h" target-dir="Plugins" />
-      <source-file src="src/ios/ezadmob.m" target-dir="Plugins" />
+      <header-file src="src/ios/CDVezadmob.h" target-dir="Plugins" />
+      <source-file src="src/ios/CDVezadmob.m" target-dir="Plugins" />
 
   </platform>
 

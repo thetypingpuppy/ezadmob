@@ -1,4 +1,4 @@
-#import "ezadmob.h"
+#import "CDVezadmob.h"
 #import <Cordova/CDVPlugin.h>
 #import <malloc/malloc.h>
 
@@ -7,7 +7,7 @@
 
 @import GoogleMobileAds;
 
-@interface ezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
+@interface CDVezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
 
 - (void)REQUEST_IDFA:(CDVInvokedUrlCommand*)command;
 
@@ -59,7 +59,7 @@
 
 @end
 
-@implementation ezadmob
+@implementation CDVezadmob
 
 // -- Banner Advert Cordova Linker Functions
 // -----------------------------------------------------------------------------
