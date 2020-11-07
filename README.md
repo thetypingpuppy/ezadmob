@@ -39,7 +39,7 @@ ezadmob.init({
 Ref:cordova-plugin-admob-free
 
 ## iOS IDFA App Tracking Transparency
-For iOS +14 users need to display an app tracking transparency message to enable/disable personalised ads. Ezadmob has a function built in for you to do this.
+For iOS +14 users need to display an app tracking transparency message to enable/disable personalised ads. Ezadmob has a function built in for you to do this. Best practice is to show this when the application loads - https://developers.google.com/admob/ios/ios14
 ```
 ezadmob.requestIDFA(successCallback, errorCallback);
 ```
