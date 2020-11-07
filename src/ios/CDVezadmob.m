@@ -1,10 +1,15 @@
-#import "ezadmob.h"
+#import "CDVezadmob.h"
 #import <Cordova/CDVPlugin.h>
 #import <malloc/malloc.h>
 
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/AdSupport.h>
+
 @import GoogleMobileAds;
 
-@interface ezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
+@interface CDVezadmob () <GADBannerViewDelegate,GADInterstitialDelegate>
+
+- (void)REQUEST_IDFA:(CDVInvokedUrlCommand*)command;
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command;
 - (void)REMOVE_BANNER:(CDVInvokedUrlCommand*)command;
@@ -54,10 +59,26 @@
 
 @end
 
-@implementation ezadmob
+@implementation CDVezadmob
 
 // -- Banner Advert Cordova Linker Functions
 // -----------------------------------------------------------------------------
+
+- (void)REQUEST_IDFA:(CDVInvokedUrlCommand*)command {
+    self.callbackID = command.callbackId;
+
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
+        }];
+    } else {
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.callbackID];
+    }
+}
 
 - (void)LOAD_AND_SHOW_BANNER:(CDVInvokedUrlCommand*)command {
     self.callbackID = command.callbackId;

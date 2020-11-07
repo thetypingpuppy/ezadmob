@@ -65,17 +65,22 @@
 
       <config-file target="config.xml" parent="/*">
           <feature name="ezadmob">
-              <param name="ios-package" value="ezadmob"/>
+              <param name="ios-package" value="CDVezadmob"/>
           </feature>
       </config-file>
 
       <config-file target="*-Info.plist" parent="SKAdNetworkItems">
-          <array>
-              <dict>
-                  <key>SKAdNetworkIdentifier</key>
-                  <string>cstr6suwn9.skadnetwork</string>
-              </dict>
-          </array>
+            <array>
+                <dict>
+                    <key>SKAdNetworkIdentifier</key>
+                    <string>cstr6suwn9.skadnetwork</string>
+                </dict>
+            </array>
+            <key></key>
+      </config-file>
+
+      <config-file target="*-Info.plist" parent="NSUserTrackingUsageDescription">
+            <string>This identifier will be used to deliver personalized ads to you.</string>
       </config-file>
 
       <config-file target="*-Info.plist" parent="GADApplicationIdentifier">
@@ -91,8 +96,8 @@
           </pods>
       </podspec>
 
-      <source-file src="src/ios/ezadmob.h" target-dir="Plugins" />
-      <source-file src="src/ios/ezadmob.m" target-dir="Plugins" />
+      <header-file src="src/ios/CDVezadmob.h" target-dir="Plugins" />
+      <source-file src="src/ios/CDVezadmob.m" target-dir="Plugins" />
 
   </platform>
 

@@ -60,6 +60,7 @@ if (/(android)/i.test(navigator.userAgent)) {  // for android & amazon-fireos
     }
 }
 
+var iosTrack = false;
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
@@ -69,6 +70,8 @@ function onDeviceReady() {
         BANNER_ID : admobid.banner,
         INTERSTITIAL_ID : admobid.interstitial,
         BANNER_OVERLAP: false});
+
+    ezadmob.requestIDFA(function(){iosTrack = true; console.log(iosTrack);},function(){iosTrack = false; console.log(iosTrack);});
 
     document.getElementById("bannerLoadButton").addEventListener("click", bannerLoad);
     document.getElementById("bannerDisplayButton").addEventListener("click", bannerDisplay);
